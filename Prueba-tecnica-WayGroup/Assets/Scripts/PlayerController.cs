@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxDistance, timePrees, forcelaunch;
     [SerializeField] private Transform positionObjects;
     [SerializeField] private GameObject hands, objectsGrabable;
-    [SerializeField] private bool isGrabable, throwable;
+    [SerializeField] private bool isGrabbed, throwable;
   
     private Rigidbody rb;
     private Transform cameraTransform;
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         Jump();
         Move();
-        ViewObject();
+        DetectObject();
       
     }
     #region Private fuctions 
@@ -91,14 +91,15 @@ public class PlayerController : MonoBehaviour
     /// otro objeto, cuando se agarra el objeto este se sujeta y se desactiva la gravedad, el kinetic y se pone
     /// en una direccion 
     /// </summary>
-    private void ViewObject()
+    private void DetectObject()
     {
-        if (isGrabable)
+        if (isGrabbed)
         {
             Debug.Log("se lanzara el objeto");
             ThrowObject();
             return;
         }
+
         Debug.DrawRay(cameraTransform.position,cameraTransform.forward *maxDistance, Color.red);
 
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -106,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit,maxDistance))
         {
-            if (hit.transform.tag == "Grabable" && Input.GetKeyDown(KeyCode.Q))
+            if (hit.transform.tag == "Grabbed" && Input.GetKeyDown(KeyCode.Q))
             {
 
                 hands.gameObject.SetActive(true);
@@ -120,7 +121,7 @@ public class PlayerController : MonoBehaviour
                 hit.transform.position = positionObjects.position;
 
                 objectsGrabable = hit.transform.gameObject;
-                isGrabable =true;
+                isGrabbed =true;
             }
             
         }
@@ -170,7 +171,7 @@ public class PlayerController : MonoBehaviour
         }
 
         objectsGrabable = null;
-        isGrabable = false;
+        isGrabbed = false;
         hands.gameObject.SetActive(false);
     }
     #endregion

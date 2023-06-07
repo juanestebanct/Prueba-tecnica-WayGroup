@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Grabable
+  - Grabbed
   layers:
   - Default
   - TransparentFX
