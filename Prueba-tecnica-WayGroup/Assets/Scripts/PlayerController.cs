@@ -95,7 +95,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrabbed)
         {
-            Debug.Log("se lanzara el objeto");
             ThrowObject();
             return;
         }
@@ -134,7 +133,6 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("se solto ");
             DropGrabbed();
         }
         if (Input.GetKey(KeyCode.Mouse1))
