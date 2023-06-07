@@ -108,11 +108,14 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.transform.tag == "Grabable" && Input.GetKeyDown(KeyCode.Q))
             {
-                Debug.Log("collisiono" + hit.transform);
+
                 hands.gameObject.SetActive(true);
-                hit.transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                hit.transform.GetComponent<Rigidbody>().useGravity = false;
-                hit.transform.GetComponent<Rigidbody>().isKinematic = true;
+                Rigidbody temRb = hit.transform.GetComponent<Rigidbody>();
+
+                temRb.velocity = Vector3.zero;
+                temRb.useGravity = false;
+                temRb.isKinematic = true;
+
                 hit.transform.parent = positionObjects;
                 hit.transform.position = positionObjects.position;
 
@@ -131,7 +134,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("se solto ");
-            DisambleObjectGrable();
+            DropGrabbed();
         }
         if (Input.GetKey(KeyCode.Mouse1))
         {
@@ -142,7 +145,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (throwable)
         {
-            DisambleObjectGrable();
+            DropGrabbed();
         }
         //lanzar 
     }
@@ -151,18 +154,21 @@ public class PlayerController : MonoBehaviour
     /// activar la gravedad y desactivar el kinematic.Ademas tambien se calcula si se quiere 
     /// que se lance la pelota con fuerza 
     /// </summary>
-    private void DisambleObjectGrable()
+    private void DropGrabbed()
     {
-        objectsGrabable.transform.GetComponent<Rigidbody>().useGravity = true;
+        Rigidbody temRb = objectsGrabable.transform.GetComponent<Rigidbody>();
+        temRb.useGravity = true;
         objectsGrabable.transform.parent = null;
-        objectsGrabable.transform.GetComponent<Rigidbody>().isKinematic = false;
+        temRb.isKinematic = false;
+
         if (throwable)
         {
             if(timePrees>2) timePrees = 2;
-            objectsGrabable.transform.GetComponent<Rigidbody>().AddForce(cameraTransform.forward * forcelaunch * timePrees, ForceMode.Impulse);
+            temRb.AddForce(cameraTransform.forward * forcelaunch * timePrees, ForceMode.Impulse);
             throwable = false;
             timePrees = 0;
         }
+
         objectsGrabable = null;
         isGrabable = false;
         hands.gameObject.SetActive(false);
