@@ -6,38 +6,27 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float  mouseSensity = 22.0f;
-
-    public Transform Body;
-
-    public Transform camara;
+    [Header("Camera")]
+    [SerializeField] Transform Body;
+    [SerializeField] private Camera camera;
 
     private float rotacion = 0;
-
-
-
-    private void Start()
+    private void LateUpdate()
     {
         Rotation();
     }
-    public void Update()
-    {
-        Rotation();
-    }
+    #region Private fuctions 
+    /// <summary>
+    /// funcion para cambiar la rotacion rotacion del cuerpo 
+    /// </summary>
     public void Rotation()
     {
-        float mousex = Input.GetAxis("Mouse X") * mouseSensity * Time.deltaTime;
-        float mousey = Input.GetAxis("Mouse Y") * mouseSensity * Time.deltaTime;
 
-          
+        Vector3 Dir = camera.transform.forward;
 
-        Body.Rotate(Vector3.up*mousex);
-        if (mousey != 0)
-        {
-            float angle = camara.localEulerAngles.x - mousey ;
-            camara.localEulerAngles=  Vector3.right * angle;
-        }
+        Body.forward = new Vector3(Dir.x, 0, Dir.z).normalized;
 
-
+      
     }
+    #endregion
 }
