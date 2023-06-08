@@ -11,8 +11,9 @@ public class EnemyState : StateEnemy
 
     private Transform currentpath;
     private int Index;
+    private float maxRangeChase;
 
-    public EnemyState(Enemy enemy, State state, Transform[] Points, NavMeshAgent navMeshAgent, Transform playerTransform) : base(enemy, state)
+    public EnemyState(Enemy enemy, State state, Transform[] Points, NavMeshAgent navMeshAgent, Transform playerTransform, float maxRangeChase) : base(enemy, state)
     {
         routa = Points;
         Index = 0;
@@ -20,6 +21,7 @@ public class EnemyState : StateEnemy
         this.navMeshAgent = navMeshAgent;
         navMeshAgent.destination = currentpath.position;
         PlayerRefence = playerTransform;
+        this.maxRangeChase = maxRangeChase;
        
     }
     #region StateEnemy fucntions
@@ -53,21 +55,21 @@ public class EnemyState : StateEnemy
         
         if (diference <= 0.5f)
         {
-           
             if (routa.Length-1 == Index) Index = 0;
             else Index++;
 
             currentpath = routa[Index];
-
-            navMeshAgent.destination = currentpath.position;
-           
+            navMeshAgent.destination = currentpath.position;    
         }
     }
+    /// <summary>
+    /// Si detecta que el jugador entro en el rango pasa de state perseguir  
+    /// </summary>
     private void SearchPlayer()
     {
         float distance = Vector3.Distance(PlayerRefence.position, enemy.transform.position);
 
-        if (distance < 6) enemy.StartMachine.ChangeState(enemy.enemyChase);
+        if (distance < maxRangeChase) enemy.StartMachine.ChangeState(enemy.enemyChase);
     }
     #endregion
 }

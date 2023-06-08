@@ -54,6 +54,9 @@ public class EnemyAttack : StateEnemy
     #endregion
 
     #region Privete fucntions
+    /// <summary>
+    /// Revisa si esta a una distancia correcta para hacerle daño y si no cambia a state perseguir 
+    /// </summary>
     private void Attack()
     {
         float distance = Vector3.Distance(PlayerRefence.position, enemy.transform.position);

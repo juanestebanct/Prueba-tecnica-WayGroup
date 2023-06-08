@@ -65,6 +65,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = (transform.forward * moveVertical + transform.right * moveHorizontal).normalized;
         rb.AddForce(movement*Speed*10f);
+        ///limite de velocidad 
+        if (rb.velocity.magnitude>Speed) rb.velocity = Speed*movement;
+
 
     }
     /// <summary>

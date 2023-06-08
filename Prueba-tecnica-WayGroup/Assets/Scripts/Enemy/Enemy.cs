@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour, IDamage
     [SerializeField] private float rangeZonaDamage;
     [SerializeField] private GameObject body;
     [SerializeField] private float minDamageRequired;
+    [SerializeField] private float maxRangeChase;
 
     [Header("Speher Damage ")]
 
@@ -42,8 +43,6 @@ public class Enemy : MonoBehaviour, IDamage
     [SerializeField] protected float rangeDamage;
     [SerializeField] protected LayerMask layerPlayer;
 
-    private Rigidbody rb;
-    private Vector3 randomPosition;
     private Transform Player;
     private Animator animator;
 
@@ -54,13 +53,12 @@ public class Enemy : MonoBehaviour, IDamage
         StartMachine = new State();
 
         enemyAttack = new EnemyAttack(this, StartMachine, speed,Player, navMeshAgent,timeCouldown, positionDamageZone, rangeDamage, layerPlayer, rangeZonaDamage);
-        enemyState = new EnemyState(this, StartMachine, route, navMeshAgent, Player);
-        enemyChase = new EnemyChase(this, StartMachine, Player, navMeshAgent, rangeZonaDamage);
+        enemyState = new EnemyState(this, StartMachine, route, navMeshAgent, Player, maxRangeChase);
+        enemyChase = new EnemyChase(this, StartMachine, Player, navMeshAgent, rangeZonaDamage, maxRangeChase);
 
     }
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
         StartMachine.Initailize(enemyState);
         animator = body.GetComponent<Animator>();
     }

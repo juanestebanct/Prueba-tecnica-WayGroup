@@ -7,11 +7,13 @@ using UnityEngine.AI;
 public class EnemyChase : StateEnemy
 {
     private float rangezoneAttack;
-    public EnemyChase(Enemy enemy, State state, Transform playerTransform, NavMeshAgent navMeshAgent, float RangeZonaDamage) : base(enemy, state)
+    private float maxRangeChase;
+    public EnemyChase(Enemy enemy, State state, Transform playerTransform, NavMeshAgent navMeshAgent, float RangeZonaDamage,float maxRangeChase) : base(enemy, state)
     {
         PlayerRefence = playerTransform;
         this.navMeshAgent = navMeshAgent;
         rangezoneAttack = RangeZonaDamage;
+        this.maxRangeChase = maxRangeChase;
     }
     #region StateEnemy fucntions
     public override void EnterState()
@@ -40,7 +42,7 @@ public class EnemyChase : StateEnemy
         {
             StopMoving();
             enemy.StartMachine.ChangeState(enemy.enemyAttack);
-        }else if (distance >= 6)
+        }else if (distance >= maxRangeChase)
         {
             enemy.StartMachine.ChangeState(enemy.enemyState);
         }

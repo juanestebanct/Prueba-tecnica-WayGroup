@@ -1249,6 +1249,7 @@ MonoBehaviour:
   rangeZonaDamage: 2
   body: {fileID: 1660211430}
   minDamageRequired: 0
+  maxRangeChase: 6
   positionDamageZone: {fileID: 1506032979}
   rangeDamage: 1.3
   layerPlayer:
@@ -2143,9 +2144,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   JumpForce: 40
-  DawnInGround: 0.5
-  DawnInAir: 0.3
-  GroundDistance: 0.4
+  DawnInGround: 1
+  DawnInAir: 0.6
+  GroundDistance: 5
   pointReference: {fileID: 1271041978}
   layerGround:
     serializedVersion: 2
