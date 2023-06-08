@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-//necesito un sphere collider o algo que me diga que el jugador esta cerca 
+ //va de un lugar al otro on el nav mesh 
 public class EnemyState : StateEnemy 
 {
     private Transform[] routa;
@@ -12,22 +12,27 @@ public class EnemyState : StateEnemy
     private Transform currentpath;
     private int Index;
 
-    private NavMeshAgent navMeshAgent;
+    
+
 
     float time = 0;
-    public EnemyState(Enemy enemy, State state, Transform[] Points, NavMeshAgent navMeshAgent) : base(enemy, state)
+    public EnemyState(Enemy enemy, State state, Transform[] Points, NavMeshAgent navMeshAgent, Transform playerTransform) : base(enemy, state)
     {
         routa = Points;
         Index = 0;
         currentpath = routa[Index];
         this.navMeshAgent = navMeshAgent;
         navMeshAgent.destination = currentpath.position;
+        PlayerRefence = playerTransform;
+       
     }
 
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("Caminata a puntos");
+        Debug.Log("Caminata a puntos"+Index);
+        currentpath = routa[Index];
+        navMeshAgent.destination= currentpath.position;
     }
 
     public override void ExitState()
@@ -38,18 +43,33 @@ public class EnemyState : StateEnemy
     public override void UpdateState()
     {
         base.UpdateState();
-        Debug.Log("sigue caminando aleatoriamente");
-
-       
+        Walking();
+        SeachPlayer();
     }
-   
+   /// <summary>
+   /// el jugador va rotando entre ruta y ruta 
+   /// </summary>
     public void Walking()
     {
         float diference = Vector3.Distance(enemy.transform.position, currentpath.position);
-        if (diference == 0)
+        
+        if (diference <= 0.5f)
         {
+           
+            if (routa.Length-1 == Index) Index = 0;
+            else Index++;
+            Debug.Log(Index);
+            currentpath = routa[Index];
 
+            navMeshAgent.destination = currentpath.position;
+           
         }
+    }
+    public void SeachPlayer()
+    {
+        float distance = Vector3.Distance(PlayerRefence.position, enemy.transform.position);
+
+        if (distance < 6) enemy.StartMachine.ChangeState(enemy.enemyChase);
     }
 
 }

@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class EnemyChase : StateEnemy
 {
-    private GameObject Player;
+    
     private Rigidbody rb;
-    public EnemyChase(Enemy enemy, State state) : base(enemy, state)
+    public EnemyChase(Enemy enemy, State state, Transform playerTransform, NavMeshAgent navMeshAgent) : base(enemy, state)
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
-        Debug.Log("jugador localizado");
-        rb= enemy.GetComponent<Rigidbody>();
+        PlayerRefence = playerTransform;
+        this.navMeshAgent = navMeshAgent;
+
+        rb = enemy.GetComponent<Rigidbody>();
+
     }
     public override void EnterState()
     {
@@ -27,19 +30,28 @@ public class EnemyChase : StateEnemy
     public override void UpdateState()
     {
         base.UpdateState();
-        Vector3 direction = (Player.transform.position - enemy.transform.position).normalized;
-
-        
-        enemy.transform.forward = new Vector3(direction.x, 0, direction.z).normalized;
-
-        Debug.Log(Player.transform.position);
-        float distance = Vector3.Distance (Player.transform.position, enemy.transform.position); 
-       
-        if (distance <= 2 )
-        {
-            enemy.StartMachine.ChangeState(enemy.enemyAttack);
-        }
-        rb.velocity = direction *2f;
+        Chanseplayer();
+        Debug.Log("empezo a mover");
 
     }
+    private void Chanseplayer()
+    {
+        float distance = Vector3.Distance(PlayerRefence.position, enemy.transform.position);
+        navMeshAgent.destination = PlayerRefence.position;
+        if (distance <= 3)
+        {
+            StopMoving();
+            enemy.StartMachine.ChangeState(enemy.enemyAttack);
+        }else if (distance >= 6)
+        {
+            enemy.StartMachine.ChangeState(enemy.enemyState);
+        }
+    }
+    private void StopMoving()
+    {
+        navMeshAgent.isStopped = true;
+        navMeshAgent.velocity = Vector3.zero;
+        navMeshAgent.speed = 0f;
+    }
+
 }

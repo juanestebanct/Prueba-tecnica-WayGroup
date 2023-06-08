@@ -28,17 +28,22 @@ public class Enemy : MonoBehaviour, IDamage
     #endregion
 
     [SerializeField] Transform[] route;
+    [SerializeField] float speed;
+
     private Rigidbody rb;
     private Vector3 randomPosition;
+    private Transform Player;
 
 
     private void Awake()
     {
+
+        Player = GameObject.FindGameObjectWithTag("Player").transform;
         StartMachine = new State();
 
-        enemyAttack = new EnemyAttack(this, StartMachine);
-        enemyState = new EnemyState(this, StartMachine, route, navMeshAgent);
-        enemyChase = new EnemyChase(this, StartMachine);
+        enemyAttack = new EnemyAttack(this, StartMachine, speed,Player, navMeshAgent);
+        enemyState = new EnemyState(this, StartMachine, route, navMeshAgent, Player);
+        enemyChase = new EnemyChase(this, StartMachine, Player, navMeshAgent);
 
     }
     private void Start()
