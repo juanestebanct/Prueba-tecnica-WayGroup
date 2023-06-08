@@ -65,8 +65,12 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = (transform.forward * moveVertical + transform.right * moveHorizontal).normalized;
         rb.AddForce(movement*Speed*10f);
+
+        Vector3 clampedVelocity = rb.velocity;
+        clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -Speed, Speed);
+        clampedVelocity.z = Mathf.Clamp(clampedVelocity.z, -Speed, Speed);
         ///limite de velocidad 
-        if (rb.velocity.magnitude>Speed) rb.velocity = Speed*movement;
+        rb.velocity = clampedVelocity;
 
 
     }
