@@ -7,4 +7,6 @@ public interface IDamage
     public void LostHealth(float Force);
 
     public void Dead();
+
+    public void Attack();
 }

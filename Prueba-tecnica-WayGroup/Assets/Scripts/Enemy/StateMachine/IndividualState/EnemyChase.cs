@@ -6,15 +6,12 @@ using UnityEngine.AI;
 
 public class EnemyChase : StateEnemy
 {
-    
-    private Rigidbody rb;
-    public EnemyChase(Enemy enemy, State state, Transform playerTransform, NavMeshAgent navMeshAgent) : base(enemy, state)
+    private float rangezoneAttack;
+    public EnemyChase(Enemy enemy, State state, Transform playerTransform, NavMeshAgent navMeshAgent, float RangeZonaDamage) : base(enemy, state)
     {
         PlayerRefence = playerTransform;
         this.navMeshAgent = navMeshAgent;
-
-        rb = enemy.GetComponent<Rigidbody>();
-
+        rangezoneAttack = RangeZonaDamage;
     }
     public override void EnterState()
     {
@@ -30,14 +27,12 @@ public class EnemyChase : StateEnemy
     {
         base.UpdateState();
         Chanseplayer();
-        Debug.Log("empezo a mover");
-
     }
     private void Chanseplayer()
     {
         float distance = Vector3.Distance(PlayerRefence.position, enemy.transform.position);
         navMeshAgent.destination = PlayerRefence.position;
-        if (distance <= 3)
+        if (distance <= rangezoneAttack)
         {
             StopMoving();
             enemy.StartMachine.ChangeState(enemy.enemyAttack);
@@ -46,11 +41,13 @@ public class EnemyChase : StateEnemy
             enemy.StartMachine.ChangeState(enemy.enemyState);
         }
     }
+
     private void StopMoving()
     {
         navMeshAgent.isStopped = true;
         navMeshAgent.velocity = Vector3.zero;
         navMeshAgent.speed = 0f;
     }
+   
 
 }

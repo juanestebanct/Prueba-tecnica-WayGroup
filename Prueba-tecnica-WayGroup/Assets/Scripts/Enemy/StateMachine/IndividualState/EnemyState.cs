@@ -12,10 +12,6 @@ public class EnemyState : StateEnemy
     private Transform currentpath;
     private int Index;
 
-    
-
-
-    float time = 0;
     public EnemyState(Enemy enemy, State state, Transform[] Points, NavMeshAgent navMeshAgent, Transform playerTransform) : base(enemy, state)
     {
         routa = Points;
@@ -58,7 +54,7 @@ public class EnemyState : StateEnemy
            
             if (routa.Length-1 == Index) Index = 0;
             else Index++;
-            Debug.Log(Index);
+
             currentpath = routa[Index];
 
             navMeshAgent.destination = currentpath.position;
