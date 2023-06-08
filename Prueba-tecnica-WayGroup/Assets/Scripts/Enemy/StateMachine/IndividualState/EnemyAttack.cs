@@ -32,10 +32,10 @@ public class EnemyAttack : StateEnemy
         Player = GameObject.FindGameObjectWithTag("Player");
         Damage = 20;
     }
+    #region StateEnemy fucntions
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("se fue a atacar");
         enemy.Attack();
     }
 
@@ -51,9 +51,13 @@ public class EnemyAttack : StateEnemy
         AttactAccion();
 
     }
+    #endregion
+
+    #region Privete fucntions
     private void Attack()
     {
         float distance = Vector3.Distance(PlayerRefence.position, enemy.transform.position);
+
         if (distance > rangezoneAttack)
         {
             ResumeMoving();
@@ -64,29 +68,30 @@ public class EnemyAttack : StateEnemy
             if (Physics.CheckSphere(positionDamageZone.position,rangeDamage, layerPlayer))
             {
                 Player.GetComponent<PlayerStats>().ResiveDamage(Damage);
-                Debug.Log("choco con el jugador ");
             }
         }
     }
-
+    /// <summary>
+    /// Activa de nuevo el movimiento del enemigo después de atacar
+    /// </summary>
     private void ResumeMoving()
     {
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speed;
-        // Establece otros parámetros como el radio de frenado, aceleración, etc., según sea necesario.
+
     }
+    /// <summary>
+    /// Se encarga de ejecutar la animacion cada cierto tiempo
+    /// </summary>
     private void AttactAccion()
     {
         AttactTime -= Time.deltaTime;
-
         if (AttactTime <= 0)
         {
             enemy.Attack();
             AttactTime = timeCountdown;
         }
-
     }
 
-
-
+    #endregion
 }

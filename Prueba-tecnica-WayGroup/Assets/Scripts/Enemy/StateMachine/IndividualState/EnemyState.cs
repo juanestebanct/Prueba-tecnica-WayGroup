@@ -22,11 +22,10 @@ public class EnemyState : StateEnemy
         PlayerRefence = playerTransform;
        
     }
-
+    #region StateEnemy fucntions
     public override void EnterState()
     {
         base.EnterState();
-        Debug.Log("Caminata a puntos"+Index);
         currentpath = routa[Index];
         navMeshAgent.destination= currentpath.position;
     }
@@ -40,12 +39,15 @@ public class EnemyState : StateEnemy
     {
         base.UpdateState();
         Walking();
-        SeachPlayer();
+        SearchPlayer();
     }
-   /// <summary>
-   /// el jugador va rotando entre ruta y ruta 
-   /// </summary>
-    public void Walking()
+    #endregion
+
+    #region Private functions 
+    /// <summary>
+    /// el jugador va rotando entre ruta y ruta 
+    /// </summary>
+    private void Walking()
     {
         float diference = Vector3.Distance(enemy.transform.position, currentpath.position);
         
@@ -61,11 +63,11 @@ public class EnemyState : StateEnemy
            
         }
     }
-    public void SeachPlayer()
+    private void SearchPlayer()
     {
         float distance = Vector3.Distance(PlayerRefence.position, enemy.transform.position);
 
         if (distance < 6) enemy.StartMachine.ChangeState(enemy.enemyChase);
     }
-
+    #endregion
 }

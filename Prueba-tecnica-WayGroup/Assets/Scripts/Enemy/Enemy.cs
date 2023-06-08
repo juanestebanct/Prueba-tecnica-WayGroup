@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,11 +27,14 @@ public class Enemy : MonoBehaviour, IDamage
 
     #endregion
 
+    [Header("Moven Stact Enemy")]
+
     [SerializeField] private Transform[] route;
     [SerializeField] private float speed;
     [SerializeField] private float timeCouldown;
     [SerializeField] private float rangeZonaDamage;
     [SerializeField] private GameObject body;
+    [SerializeField] private float minDamageRequired;
 
     [Header("Speher Damage ")]
 
@@ -64,27 +68,30 @@ public class Enemy : MonoBehaviour, IDamage
     {
         StartMachine.CurrenState.UpdateState();
     }
-    public void MoveEnemy()
-    {
-        Vector3 direction = transform.position- randomPosition;
-        rb.velocity = direction.normalized * 5;
-
-    }
+    #region public funtions 
+    /// <summary>
+    ///  Aplicación de la interfaz de la muerte activada  
+    /// </summary>
     public void Dead()
     {
-     
+        Destroy(gameObject);
     }
+    /// <summary>
+    /// Aplicación de la interfaz de perdida de vida  
+    /// </summary>
     public void LostHealth(float Force)
     {
-       Maxlive -=(int)Force;
+        if (Force < minDamageRequired) return;
+        Maxlive -=(int)Force;
+        if (Maxlive <= 0) Dead();
     }
-
+    /// <summary>
+    /// Se ejecuta la animación
+    /// </summary>
     public void Attack()
     {
-        Debug.Log("atacando");
         animator.SetTrigger("Attack");
     }
 
-   
-    //activamos un esferecollider y si choca daña al jugador 
+    #endregion
 }

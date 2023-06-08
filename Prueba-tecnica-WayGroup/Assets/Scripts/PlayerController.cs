@@ -139,7 +139,6 @@ public class PlayerController : MonoBehaviour
         {
             //si anda precionado el boton y lo deja de precionar salta 
             timePrees += Time.deltaTime;
-            Debug.Log(timePrees);
             throwable = true;
         }
         else if (throwable)

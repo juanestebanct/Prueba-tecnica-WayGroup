@@ -15,12 +15,16 @@ public class PlayerStats : MonoBehaviour
     {
         CanResiveDamage = true;
     }
+    #region private Funtions 
+    /// <summary>
+    /// Se calcula el daño que recibe el jugador
+    /// </summary>
+    /// <param name="Damage"></param>
     public void ResiveDamage(int Damage)
     {
         if (CanResiveDamage)
         {
             StartCoroutine(ApplyDamageOverTime());
-            Debug.Log("recivio el player damge");
             Live -= Damage;
 
             if(Live <=0 ) Dead();
@@ -30,6 +34,10 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("se murio");
     }
+    /// <summary>
+    /// Corrutina que se encarga de la inmortalidad temporal del jugador 
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ApplyDamageOverTime()
     {
         CanResiveDamage = false;
@@ -37,4 +45,5 @@ public class PlayerStats : MonoBehaviour
         CanResiveDamage = true;
 
     }
+    #endregion
 }

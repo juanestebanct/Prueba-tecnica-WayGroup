@@ -15,7 +15,19 @@ public class StateEnemy
         this.enemy = enemy;
         this.state = state;
     }
+    #region Virtual fucntions
+    /// <summary>
+    /// Cuando entra en este state
+    /// </summary>
     public virtual void EnterState() { }
+    /// <summary>
+    /// Cuando esta en este state
+    /// </summary>
     public virtual void UpdateState() { }
+    /// <summary>
+    /// Cuando sale del este state
+    /// </summary>
     public virtual void ExitState() { }
+
+    #endregion
 }

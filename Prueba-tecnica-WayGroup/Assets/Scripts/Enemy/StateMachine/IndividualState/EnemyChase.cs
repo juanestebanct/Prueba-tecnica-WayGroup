@@ -13,6 +13,7 @@ public class EnemyChase : StateEnemy
         this.navMeshAgent = navMeshAgent;
         rangezoneAttack = RangeZonaDamage;
     }
+    #region StateEnemy fucntions
     public override void EnterState()
     {
         base.EnterState();
@@ -28,6 +29,9 @@ public class EnemyChase : StateEnemy
         base.UpdateState();
         Chanseplayer();
     }
+    #endregion
+
+    #region Private functions 
     private void Chanseplayer()
     {
         float distance = Vector3.Distance(PlayerRefence.position, enemy.transform.position);
@@ -48,6 +52,8 @@ public class EnemyChase : StateEnemy
         navMeshAgent.velocity = Vector3.zero;
         navMeshAgent.speed = 0f;
     }
-   
+
+    #endregion
+
 
 }

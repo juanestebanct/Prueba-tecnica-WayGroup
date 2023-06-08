@@ -10,7 +10,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform Body;
     [SerializeField] private Camera camera;
 
-    private float rotacion = 0;
     private void LateUpdate()
     {
         Rotation();
