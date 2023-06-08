@@ -66,6 +66,13 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = (transform.forward * moveVertical + transform.right * moveHorizontal).normalized;
         rb.AddForce(movement*Speed*10f);
 
+        Vector3 clampedVelocity = rb.velocity;
+        clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -Speed, Speed);
+        clampedVelocity.z = Mathf.Clamp(clampedVelocity.z, -Speed, Speed);
+        ///limite de velocidad 
+        rb.velocity = clampedVelocity;
+
+
     }
     /// <summary>
     /// funcion de calcular el salto 
@@ -95,7 +102,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrabbed)
         {
-            Debug.Log("se lanzara el objeto");
             ThrowObject();
             return;
         }
@@ -134,14 +140,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Log("se solto ");
             DropGrabbed();
         }
         if (Input.GetKey(KeyCode.Mouse1))
         {
             //si anda precionado el boton y lo deja de precionar salta 
             timePrees += Time.deltaTime;
-            Debug.Log(timePrees);
             throwable = true;
         }
         else if (throwable)
@@ -175,4 +179,6 @@ public class PlayerController : MonoBehaviour
         hands.gameObject.SetActive(false);
     }
     #endregion
+
+  
 }
