@@ -148,6 +148,7 @@ public class PlayerController : MonoBehaviour
 
                 objectsGrabable = hit.transform.gameObject;
                 isGrabbed =true;
+                forceBar.gameObject.SetActive(true);
             }
             
         }
@@ -177,7 +178,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            forceBar.gameObject.SetActive(true);
+          
             //si anda precionado el boton y lo deja de precionar salta 
             timePrees += Time.deltaTime;
             throwable = true;
@@ -215,6 +216,7 @@ public class PlayerController : MonoBehaviour
         objectsGrabable = null;
         isGrabbed = false;
         hands.gameObject.SetActive(false);
+        force.fillAmount = 0;
     }
     #endregion
 
