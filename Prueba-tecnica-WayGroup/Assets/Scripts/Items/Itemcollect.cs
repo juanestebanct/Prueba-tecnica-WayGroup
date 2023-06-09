@@ -12,7 +12,7 @@ public class Itemcollect : MonoBehaviour
         {
             // Aquí puedes agregar la lógica que deseas ejecutar cuando el objeto colisiona con el jugador
             Debug.Log("¡El objeto colisionó con el jugador!");
-            inventaryManager.addItem(item);
+            bool Spawn = inventaryManager.addItem(item);
         }
     }
 }

@@ -26,4 +26,21 @@ public class Item : ScriptableObject
         Tesure,
         Speed
     }
+    /// <summary>
+    /// Dependiendo del tipo se activa, añadir la vida al player, speed o calcula el tesoro 
+    /// </summary>
+    /// <param name="player"></param>
+    public void AplicateEfect(GameObject player)
+    {
+        switch (type)
+        {
+            case ItemType.Health:
+                break;
+            case ItemType.Speed:
+                break;
+            case ItemType.Tesure:
+                break;
+
+        }
+    }
 }
