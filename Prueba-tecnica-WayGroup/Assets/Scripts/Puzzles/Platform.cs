@@ -16,7 +16,6 @@ public class Platform : MonoBehaviour
     private bool moving;
     private int MaximumPathsize;
 
-    #region Private fuctions 
     private void Awake()
     {
         indexPoint = 0;
@@ -29,6 +28,9 @@ public class Platform : MonoBehaviour
     {
         MovePlatform();
     }
+
+    #region Private fuctions 
+
     /// <summary>
     /// Se encarga de mover la plataforma hasta llegar al punto 
     /// </summary>

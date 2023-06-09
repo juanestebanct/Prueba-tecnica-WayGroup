@@ -8,6 +8,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler,I
 {
     
     [Header("Ui")]
+
     public Image image;
     public TextMeshProUGUI CountText;
     public int count = 0;
@@ -15,6 +16,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler,I
 
     [HideInInspector] public Transform parentAfterDrag;
 
+    #region public fuctions
+    /// <summary>
+    /// Inicializa el item en el inventario 
+    /// </summary>
+    /// <param name="newItem">el item </param>
     public void InitialiseItem(Item newItem)
     {
         count++;
@@ -39,7 +45,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler,I
       image.raycastTarget = true;
       transform.SetParent(parentAfterDrag);
     }
-
+    /// <summary>
+    /// refresca el contador de items 
+    /// </summary>
     public void RefreshCount()
     {
         CountText.text = count.ToString();
@@ -61,6 +69,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler,I
        SpawnObject(PointSpawn);
         Destroy (gameObject);
     }
+
+    /// <summary>
+    /// Se ve que tipo es para que ejecute un efecto 
+    /// </summary>
+    /// <param name="player">el player para aplicar los efectos</param>
     public void EffectItem(GameObject player)
     {
         switch (item.type)
@@ -70,24 +83,26 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler,I
                 break;
             case ItemType.Speed:
                 item.SpeedPlayer(player);
-                Debug.Log("Aumenta la velocidad");
                 break;
             case ItemType.Tesure:
-                Debug.Log("Te hace rico");
                 break;
 
         }
     }
+    #endregion
 
+    #region End fuctions
+    /// <summary>
+    /// Para spawnear el objeto que se va a soltar 
+    /// </summary>
+    /// <param name="PointSpawn">punto para spawnear</param>
     private void SpawnObject(Transform PointSpawn)
     {
-        Debug.Log(PointSpawn);
         for (int i = 0; i < count; i++)
         {
             Instantiate(item.Prefab, PointSpawn.position, Quaternion.identity);
-            Debug.Log("se coloco en el punto");
         }
     }
- 
+    #endregion
 
 }

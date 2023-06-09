@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class OpenInventory : MonoBehaviour
 {
-    private bool InventoryIsOpen;
+    [Header("Inventari open")]
 
     [SerializeField] private GameObject Inventary;
+    [SerializeField] private GameObject PointToViw;
+
+    private bool InventoryIsOpen;
 
     // Update is called once per frame
     void Update()
@@ -17,6 +20,10 @@ public class OpenInventory : MonoBehaviour
             OpenMenu();
         }
     }
+    #region Private Funtions 
+    /// <summary>
+    /// Habre y cierra el menu
+    /// </summary>
     private void OpenMenu()
     {
         if (!InventoryIsOpen)
@@ -25,6 +32,7 @@ public class OpenInventory : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             InventoryIsOpen = !InventoryIsOpen;
+            PointToViw.SetActive(false);
         }
         else
         {
@@ -32,7 +40,9 @@ public class OpenInventory : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             InventoryIsOpen = !InventoryIsOpen;
+            PointToViw.SetActive(true);
 
         }
     }
+    #endregion
 }

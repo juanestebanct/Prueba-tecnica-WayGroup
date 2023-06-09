@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour,IDropHandler
 {
+    [Header("Decoration Slot")]
 
     public Image image;
     public Color SelectColor, notSelectedColor;
@@ -12,6 +13,7 @@ public class InventorySlot : MonoBehaviour,IDropHandler
     {
         Deselect();
     }
+    #region Public fuctions
     public void Select()
     {
         image.color = SelectColor;
@@ -28,5 +30,5 @@ public class InventorySlot : MonoBehaviour,IDropHandler
             inventoryItem.parentAfterDrag = transform;
         }
     }
-
+    #endregion
 }

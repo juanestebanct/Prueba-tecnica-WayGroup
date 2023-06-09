@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Riggibody stactic")]
+    [Header("Rigidbody stactic")]
 
     [SerializeField] private float speed;
     [SerializeField] private float JumpForce;
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform pointReference;
     [SerializeField] private LayerMask layerGround;
 
-    [Header("Grap sistem ")]
+    [Header("Grab sistem ")]
 
     [SerializeField] private float maxDistance, timePrees, forcelaunch;
     [SerializeField] private Transform positionObjects;
@@ -49,12 +49,19 @@ public class PlayerController : MonoBehaviour
         Jump();
         Move();
         DetectObject();
-      
     }
+
+    #region Public fuctions 
+    public void ChangeSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+    #endregion
+
     #region Private fuctions 
-   /// <summary>
-   /// Funcion que permite el movimiento 
-   /// </summary>
+    /// <summary>
+    /// Funcion que permite el movimiento 
+    /// </summary>
     private void Move()
     {
         if (isGrounded) rb.drag = DawnInGround;
@@ -81,22 +88,9 @@ public class PlayerController : MonoBehaviour
         }
         ///limite de velocidad 
         rb.velocity = clampedVelocity;
-        
-        
-
 
     }
-    /// <summary>
-    /// se encarga de rotar el personaje para el movimiento en pendientes 
-    /// </summary>
-    public void ChangeRotacion()
-    {
-        if (Physics.Raycast(pointReference.position, Vector3.down, out hitInfo, GroundDistance, layerGround))
-        {
-            Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, hitInfo.normal) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, slopeRotation, 10f * Time.deltaTime);
-        }
-    }
+
     /// <summary>
     /// funcion de calcular el salto 
     /// </summary>
@@ -113,7 +107,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private bool TouchGround()
     {
-
         return Physics.Raycast(pointReference.position,Vector3.down, GroundDistance, layerGround);
     }
     /// <summary>
@@ -218,11 +211,4 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-
-    public void ChangeSpeed(float speed)
-    {
-        Debug.Log("cambio la velocidad");
-        this.speed = speed;
-    }
-  
 }

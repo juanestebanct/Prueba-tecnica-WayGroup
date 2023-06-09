@@ -33,6 +33,42 @@ public class InventaryManager : MonoBehaviour
         ActiveEffect();
         dropItem();
     }
+    #region public fuctions
+
+    public bool addItem(Item item)
+    {
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            InventorySlot slot = inventorySlots[i];
+            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
+
+            if (itemSlot != null && itemSlot.item == item && maxItemSlot >= itemSlot.count)
+            {
+                itemSlot.count++;
+                itemSlot.RefreshCount();
+                return true;
+            }
+        }
+
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            InventorySlot slot = inventorySlots[i];
+            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
+
+            if (itemSlot == null)
+            {
+                SpawnNewItem(item, slot);
+                return true;
+            }
+        }
+        return false;
+    }
+    #endregion
+
+    #region Private fuctions
+    /// <summary>
+    /// sistema para cambiar entre los slot de la tecla 1-6 
+    /// </summary>
     private void ChangeSlot()
     {
         if (Input.inputString != null)
@@ -45,6 +81,9 @@ public class InventaryManager : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Activa el efecto del tipo que tenga health , speed 
+    /// </summary>
     private void ActiveEffect()
     {
         if (SelectedSlot < 0)
@@ -60,7 +99,6 @@ public class InventaryManager : MonoBehaviour
                
                 if (itemSlot.item.type == ItemType.Tesure)
                 {
-                    Debug.Log("este objeto no se puede consumir");
                     return;
                 }
                 itemSlot.count--;
@@ -69,6 +107,9 @@ public class InventaryManager : MonoBehaviour
             }           
         }
     }
+    /// <summary>
+    /// Tira el item al frente 
+    /// </summary>
     private void dropItem()
     {
         if (SelectedSlot < 0)
@@ -83,11 +124,13 @@ public class InventaryManager : MonoBehaviour
             if (itemSlot != null)
             {
                 itemSlot.DropItem(dropPoint);
-                Debug.Log("se tira objeto");
             }
         }
     }
-
+    /// <summary>
+    /// revisa si se puede cambiar el sloot y la deja selecionada 
+    /// </summary>
+    /// <param name="newValue"></param>
     private void ChangeSelectedSlost(int newValue)
     {
         if (SelectedSlot >= 0)
@@ -99,40 +142,16 @@ public class InventaryManager : MonoBehaviour
         SelectedSlot = newValue;
     }
     
+    /// <summary>
+    /// crea en el inventario el proceso para añadir item al inventario 
+    /// </summary>
+    /// <param name="item">el item que se va a guardad </param>
+    /// <param name="slot">en el slot que se va a guardar </param>
     private void SpawnNewItem(Item item, InventorySlot slot)
     {
         GameObject newItem = Instantiate(InventoryItemPrefab,slot.transform);
         InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
         inventoryItem.InitialiseItem(item);
     }
-    public bool addItem(Item item)
-    {
-        for (int i = 0; i < inventorySlots.Length; i++)
-        {
-            InventorySlot slot = inventorySlots[i];
-            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
-
-            if (itemSlot != null && itemSlot.item == item && maxItemSlot >= itemSlot.count)
-            {
-                itemSlot.count++;
-                itemSlot.RefreshCount();
-                Debug.Log("aumenta el objeto");
-                return true;
-            }
-        }
-
-        for (int i = 0; i < inventorySlots.Length; i++)
-        {
-            InventorySlot slot = inventorySlots[i];
-            InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
-
-            if (itemSlot == null)
-            {
-                SpawnNewItem(item, slot);
-                Debug.Log("se esta colocando item");
-                return true;
-            }
-        }
-        return false;
-    }
+    #endregion
 }

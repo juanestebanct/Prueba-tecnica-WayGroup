@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(menuName ="Scriptable objecct/Item")]
 public class Item : ScriptableObject
 {
+    [Header("Info")]
     public string Name;
     public ItemType type;
     public GameObject Prefab;

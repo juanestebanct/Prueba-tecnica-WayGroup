@@ -20,11 +20,12 @@ public class Itemcollect : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Aquí puedes agregar la lógica que deseas ejecutar cuando el objeto colisiona con el jugador
-            Debug.Log("¡El objeto colisionó con el jugador!");
-            bool Spawn = InventaryManager.Instance.addItem(item);
+            if (tesure != typeUse.tesure)
+            {
+                bool Spawn = InventaryManager.Instance.addItem(item);
 
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }
         }
     }
     
