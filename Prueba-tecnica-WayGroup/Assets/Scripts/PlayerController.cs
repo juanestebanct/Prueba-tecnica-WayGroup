@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -14,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float DawnInAir;
 
     [Header("Raycast")]
-
+    [SerializeField] private RaycastHit hitInfo;
     [SerializeField] private float GroundDistance;
     [SerializeField] private Transform pointReference;
     [SerializeField] private LayerMask layerGround;
@@ -67,12 +68,35 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement*speed*10f);
 
         Vector3 clampedVelocity = rb.velocity;
-        clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -speed, speed);
-        clampedVelocity.z = Mathf.Clamp(clampedVelocity.z, -speed, speed);
+
+        // se compureba si hay un movimiento, si no se quita la velocidad
+        if (movement.magnitude != 0)
+        {
+            clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -speed, speed);
+            clampedVelocity.z = Mathf.Clamp(clampedVelocity.z, -speed, speed);
+        }
+        else
+        {
+            clampedVelocity.x = 0;
+            clampedVelocity.z = 0;
+        }
         ///limite de velocidad 
         rb.velocity = clampedVelocity;
+        
+        
 
 
+    }
+    /// <summary>
+    /// se encarga de rotar el personaje para el movimiento en pendientes 
+    /// </summary>
+    public void ChangeRotacion()
+    {
+        if (Physics.Raycast(pointReference.position, Vector3.down, out hitInfo, GroundDistance, layerGround))
+        {
+            Quaternion slopeRotation = Quaternion.FromToRotation(transform.up, hitInfo.normal) * transform.rotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation, slopeRotation, 10f * Time.deltaTime);
+        }
     }
     /// <summary>
     /// funcion de calcular el salto 
