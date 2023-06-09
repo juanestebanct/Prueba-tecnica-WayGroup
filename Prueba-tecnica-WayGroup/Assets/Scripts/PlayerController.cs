@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
-    [Header("Riggibody stactic")]
+    [Header("Rigidbody stactic")]
 
-    [SerializeField] private float Speed;
+    [SerializeField] private float speed;
     [SerializeField] private float JumpForce;
 
     [SerializeField] private float DawnInGround;
@@ -15,13 +12,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("Raycast")]
 
+    [SerializeField] private RaycastHit hitInfo;
     [SerializeField] private float GroundDistance;
     [SerializeField] private Transform pointReference;
     [SerializeField] private LayerMask layerGround;
 
-    [Header("Grap sistem ")]
+    [Header("Grab sistem ")]
 
-    [SerializeField] private float maxDistance, timePrees, forcelaunch;
+    [SerializeField] private Image force;
+    [SerializeField] private GameObject forceBar;
+    [SerializeField] private float maxDistance, timePrees, forcelaunch, maxTime;
     [SerializeField] private Transform positionObjects;
     [SerializeField] private GameObject hands, objectsGrabable;
     [SerializeField] private bool isGrabbed, throwable;
@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         hands.gameObject.SetActive(false);
+
+        forceBar.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -49,12 +51,19 @@ public class PlayerController : MonoBehaviour
         Jump();
         Move();
         DetectObject();
-      
     }
+
+    #region Public fuctions 
+    public void ChangeSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+    #endregion
+
     #region Private fuctions 
-   /// <summary>
-   /// Funcion que permite el movimiento 
-   /// </summary>
+    /// <summary>
+    /// Funcion que permite el movimiento 
+    /// </summary>
     private void Move()
     {
         if (isGrounded) rb.drag = DawnInGround;
@@ -64,16 +73,26 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = (transform.forward * moveVertical + transform.right * moveHorizontal).normalized;
-        rb.AddForce(movement*Speed*10f);
+        rb.AddForce(movement*speed*10f);
 
         Vector3 clampedVelocity = rb.velocity;
-        clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -Speed, Speed);
-        clampedVelocity.z = Mathf.Clamp(clampedVelocity.z, -Speed, Speed);
+
+        // se compureba si hay un movimiento, si no se quita la velocidad
+        if (movement.magnitude != 0)
+        {
+            clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -speed, speed);
+            clampedVelocity.z = Mathf.Clamp(clampedVelocity.z, -speed, speed);
+        }
+        else
+        {
+            clampedVelocity.x = 0;
+            clampedVelocity.z = 0;
+        }
         ///limite de velocidad 
         rb.velocity = clampedVelocity;
 
-
     }
+
     /// <summary>
     /// funcion de calcular el salto 
     /// </summary>
@@ -102,6 +121,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrabbed)
         {
+            DestroyObjectGrab();
             ThrowObject();
             return;
         }
@@ -113,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit,maxDistance))
         {
-            if (hit.transform.tag == "Grabbed" && Input.GetKeyDown(KeyCode.Q))
+            if (hit.transform.tag == "Grabbed" && Input.GetKeyDown(KeyCode.Mouse0))
             {
 
                 hands.gameObject.SetActive(true);
@@ -122,14 +142,28 @@ public class PlayerController : MonoBehaviour
                 temRb.velocity = Vector3.zero;
                 temRb.useGravity = false;
                 temRb.isKinematic = true;
-
+                hit.transform.GetComponent<Collider>().enabled = false;
                 hit.transform.parent = positionObjects;
                 hit.transform.position = positionObjects.position;
 
                 objectsGrabable = hit.transform.gameObject;
                 isGrabbed =true;
+                forceBar.gameObject.SetActive(true);
             }
             
+        }
+    }
+    /// <summary>
+    /// si colocas un objeto y este se destruye, se desactiva el agarre
+    /// </summary>
+    private void DestroyObjectGrab()
+    {
+        if (objectsGrabable == null)
+        {
+            objectsGrabable = null;
+            hands.gameObject.SetActive(false);
+            isGrabbed = false;
+            return;
         }
     }
     /// <summary>
@@ -138,15 +172,17 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ThrowObject()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             DropGrabbed();
         }
         if (Input.GetKey(KeyCode.Mouse1))
         {
+          
             //si anda precionado el boton y lo deja de precionar salta 
             timePrees += Time.deltaTime;
             throwable = true;
+            force.fillAmount= timePrees / maxTime;
         }
         else if (throwable)
         {
@@ -164,21 +200,24 @@ public class PlayerController : MonoBehaviour
         Rigidbody temRb = objectsGrabable.transform.GetComponent<Rigidbody>();
         temRb.useGravity = true;
         objectsGrabable.transform.parent = null;
+        objectsGrabable.GetComponent<Collider>().enabled = true;   
         temRb.isKinematic = false;
 
         if (throwable)
         {
-            if(timePrees>2) timePrees = 2;
+           
+            if (timePrees>maxTime) timePrees = 2;
             temRb.AddForce(cameraTransform.forward * forcelaunch * timePrees, ForceMode.Impulse);
             throwable = false;
             timePrees = 0;
+            forceBar.gameObject.SetActive(false);
         }
 
         objectsGrabable = null;
         isGrabbed = false;
         hands.gameObject.SetActive(false);
+        force.fillAmount = 0;
     }
     #endregion
 
-  
 }

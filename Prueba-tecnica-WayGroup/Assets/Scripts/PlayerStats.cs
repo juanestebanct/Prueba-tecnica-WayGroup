@@ -1,19 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    [Header("Raycast")]
+    [Header("Stats")]
 
-    [SerializeField] private float Live;
+    [SerializeField] private float maxLive;
+    [SerializeField] private float live;
+    [SerializeField] private float MaxSpeed;
+    [SerializeField] private float speed;
+    [SerializeField] private float points;
     [SerializeField] private float timeInMortality;
+    [SerializeField] private PlayerController MovenPlayer;
+    [SerializeField] private Image liveBar;
 
     private bool CanResiveDamage;
 
     private void Start()
     {
+        speed = MaxSpeed;
+        MovenPlayer.ChangeSpeed(MaxSpeed);
         CanResiveDamage = true;
+        live = maxLive;
     }
     #region private Funtions 
     /// <summary>
@@ -25,15 +35,40 @@ public class PlayerStats : MonoBehaviour
         if (CanResiveDamage)
         {
             StartCoroutine(ApplyDamageOverTime());
-            Live -= Damage;
+            live -= Damage;
 
-            if(Live <=0 ) Dead();
+            if(live <=0 ) Dead();
+            UpdateLive();
         }
+    }
+
+    public void ResiveDamageTrap(int Damage)
+    {
+        live -= Damage;
+        if (live <= 0) Dead();
+        UpdateLive();
+    }
+    public void ResiveHealt(float healt)
+    {
+        live+= healt;
+        if (live > maxLive) live = maxLive;
+        UpdateLive();
+    }
+    public void ChangeSpeed(float speed)
+    {
+        Debug.Log("aplico la velocidad ");
+        this.speed += speed;
+        Debug.Log(this.speed);
+        MovenPlayer.ChangeSpeed(this.speed);
+        StartCoroutine(ApplicateSpeed());
     }
     private void Dead()
     {
-        Debug.Log("se murio");
+        SceneManager.LoadScene("Level");
     }
+    #endregion
+
+    #region private Corrutine
     /// <summary>
     /// Corrutina que se encarga de la inmortalidad temporal del jugador 
     /// </summary>
@@ -43,7 +78,17 @@ public class PlayerStats : MonoBehaviour
         CanResiveDamage = false;
         yield return new WaitForSeconds(timeInMortality);
         CanResiveDamage = true;
-
+    }
+    private IEnumerator ApplicateSpeed()
+    {
+        Debug.Log("mejoro la velocidad");
+        yield return new WaitForSeconds(3);
+        speed = MaxSpeed;
+        MovenPlayer.ChangeSpeed(speed);
+    }
+    private void UpdateLive()
+    {
+        liveBar.fillAmount = live/maxLive;
     }
     #endregion
 }
