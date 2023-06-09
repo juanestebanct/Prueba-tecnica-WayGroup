@@ -15,7 +15,10 @@ public class Itemcollect : MonoBehaviour
         Item,
         tesure
     }
-
+    /// <summary>
+    /// Si collisiona con el jugador y este tiene espacio destruye el objeto, si no el objeto no se destruye 
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -24,7 +27,11 @@ public class Itemcollect : MonoBehaviour
             {
                 bool Spawn = InventaryManager.Instance.addItem(item);
 
-                Destroy(gameObject);
+                if (Spawn)
+                {
+                    Destroy(gameObject);
+                }
+              
             }
         }
     }

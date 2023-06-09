@@ -34,7 +34,11 @@ public class InventaryManager : MonoBehaviour
         dropItem();
     }
     #region public fuctions
-
+    /// <summary>
+    /// Sistema para recivir el objeto y almacenarlo en las ranuras del los items
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
     public bool addItem(Item item)
     {
         for (int i = 0; i < inventorySlots.Length; i++)
