@@ -163,6 +163,7 @@ public class PlayerController : MonoBehaviour
             objectsGrabable = null;
             hands.gameObject.SetActive(false);
             isGrabbed = false;
+            forceBar.gameObject.SetActive(false);
             return;
         }
     }
@@ -210,9 +211,8 @@ public class PlayerController : MonoBehaviour
             temRb.AddForce(cameraTransform.forward * forcelaunch * timePrees, ForceMode.Impulse);
             throwable = false;
             timePrees = 0;
-            forceBar.gameObject.SetActive(false);
         }
-
+        forceBar.gameObject.SetActive(false);
         objectsGrabable = null;
         isGrabbed = false;
         hands.gameObject.SetActive(false);
