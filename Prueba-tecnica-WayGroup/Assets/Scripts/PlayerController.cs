@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [Header("Rigidbody stactic")]
@@ -14,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float DawnInAir;
 
     [Header("Raycast")]
+
     [SerializeField] private RaycastHit hitInfo;
     [SerializeField] private float GroundDistance;
     [SerializeField] private Transform pointReference;
@@ -21,7 +19,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Grab sistem ")]
 
-    [SerializeField] private float maxDistance, timePrees, forcelaunch;
+    [SerializeField] private Image force;
+    [SerializeField] private GameObject forceBar;
+    [SerializeField] private float maxDistance, timePrees, forcelaunch, maxTime;
     [SerializeField] private Transform positionObjects;
     [SerializeField] private GameObject hands, objectsGrabable;
     [SerializeField] private bool isGrabbed, throwable;
@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         hands.gameObject.SetActive(false);
+
+        forceBar.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -140,7 +142,7 @@ public class PlayerController : MonoBehaviour
                 temRb.velocity = Vector3.zero;
                 temRb.useGravity = false;
                 temRb.isKinematic = true;
-
+                hit.transform.GetComponent<Collider>().enabled = false;
                 hit.transform.parent = positionObjects;
                 hit.transform.position = positionObjects.position;
 
@@ -175,9 +177,11 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Mouse1))
         {
+            forceBar.gameObject.SetActive(true);
             //si anda precionado el boton y lo deja de precionar salta 
             timePrees += Time.deltaTime;
             throwable = true;
+            force.fillAmount= timePrees / maxTime;
         }
         else if (throwable)
         {
@@ -195,14 +199,17 @@ public class PlayerController : MonoBehaviour
         Rigidbody temRb = objectsGrabable.transform.GetComponent<Rigidbody>();
         temRb.useGravity = true;
         objectsGrabable.transform.parent = null;
+        objectsGrabable.GetComponent<Collider>().enabled = true;   
         temRb.isKinematic = false;
 
         if (throwable)
         {
-            if(timePrees>2) timePrees = 2;
+           
+            if (timePrees>maxTime) timePrees = 2;
             temRb.AddForce(cameraTransform.forward * forcelaunch * timePrees, ForceMode.Impulse);
             throwable = false;
             timePrees = 0;
+            forceBar.gameObject.SetActive(false);
         }
 
         objectsGrabable = null;

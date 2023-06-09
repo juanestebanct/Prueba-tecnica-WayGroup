@@ -6,8 +6,8 @@ public class OpenInventory : MonoBehaviour
 {
     [Header("Inventari open")]
 
-    [SerializeField] private GameObject Inventary;
-    [SerializeField] private GameObject PointToViw;
+    [SerializeField] private GameObject inventary;
+    [SerializeField] private GameObject pointToViw;
 
     private bool InventoryIsOpen;
 
@@ -28,19 +28,19 @@ public class OpenInventory : MonoBehaviour
     {
         if (!InventoryIsOpen)
         {
-            Inventary.SetActive(true);
+            inventary.SetActive(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             InventoryIsOpen = !InventoryIsOpen;
-            PointToViw.SetActive(false);
+            pointToViw.SetActive(false);
         }
         else
         {
-            Inventary.SetActive(false);
+            inventary.SetActive(false);
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             InventoryIsOpen = !InventoryIsOpen;
-            PointToViw.SetActive(true);
+            pointToViw.SetActive(true);
 
         }
     }
