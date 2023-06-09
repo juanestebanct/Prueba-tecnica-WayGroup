@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class OpenDoor : MonoBehaviour
 {
-    
+    [SerializeField] private GameObject Door;
+    [SerializeField] private GameObject Mensaje;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Grabbed"))
@@ -12,12 +13,15 @@ public class OpenDoor : MonoBehaviour
             Itemcollect item = other.GetComponent<Itemcollect>();
             if (item != null)
             {
-                Debug.Log("Funciona");
-            }
-            else
-            {
-                Debug.Log("es nulo");
+                OpenDoorAndDestroy();
+                Destroy(other.gameObject);
+                Destroy(Mensaje);
             }
         }
+    }
+    private void OpenDoorAndDestroy()
+    {
+        Door.gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

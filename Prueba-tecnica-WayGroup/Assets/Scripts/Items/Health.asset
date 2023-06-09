@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Health
   type: 0
   Prefab: {fileID: 7131984229926268763, guid: 7f5e6ba9718ebd547b1e76ae0fec64c2, type: 3}
-  Image: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Image: {fileID: 21300000, guid: f19e923edee67c94a9fafc8fae17a136, type: 3}
   Points: 0
   Healt: 40
   Speed: 0

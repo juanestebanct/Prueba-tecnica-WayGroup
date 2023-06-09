@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrabbed)
         {
+            DestroyObjectGrab();
             ThrowObject();
             return;
         }
@@ -130,6 +131,19 @@ public class PlayerController : MonoBehaviour
                 isGrabbed =true;
             }
             
+        }
+    }
+    /// <summary>
+    /// si colocas un objeto y este se destruye, se desactiva el agarre
+    /// </summary>
+    private void DestroyObjectGrab()
+    {
+        if (objectsGrabable == null)
+        {
+            objectsGrabable = null;
+            hands.gameObject.SetActive(false);
+            isGrabbed = false;
+            return;
         }
     }
     /// <summary>

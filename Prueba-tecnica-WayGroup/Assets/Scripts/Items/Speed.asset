@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Position
   type: 2
   Prefab: {fileID: 2083666333142201803, guid: 868fa1746d4db7a4fbb48113b0aa1085, type: 3}
-  Image: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  Image: {fileID: 21300000, guid: a841d1ebd678902479b4658af0ea00a7, type: 3}
   Points: 0
   Healt: 0
   Speed: 2

@@ -30,8 +30,9 @@ public class OpenInventory : MonoBehaviour
         {
             Inventary.SetActive(false);
             Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = CursorLockMode.Locked;
             InventoryIsOpen = !InventoryIsOpen;
+
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Item;
 
 public class InventaryManager : MonoBehaviour
 {
@@ -56,6 +57,12 @@ public class InventaryManager : MonoBehaviour
             InventoryItem itemSlot = slot.GetComponentInChildren<InventoryItem>();
             if (itemSlot != null)
             {
+               
+                if (itemSlot.item.type == ItemType.Tesure)
+                {
+                    Debug.Log("este objeto no se puede consumir");
+                    return;
+                }
                 itemSlot.count--;
                 itemSlot.RefreshCount();
                 itemSlot.EffectItem(player);
