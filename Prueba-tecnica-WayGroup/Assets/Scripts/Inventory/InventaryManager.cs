@@ -5,18 +5,26 @@ using UnityEngine;
 public class InventaryManager : MonoBehaviour
 {
     // si dectecta que preciono q y es una slot que tenga algo, voy al objeto y interactuo con el 
+    public static InventaryManager Instance;
+
     public InventorySlot[] inventorySlots;
     public GameObject InventoryItemPrefab;
 
     [SerializeField] private int maxItemSlot;
     [SerializeField] private int SlotUi;
     [SerializeField] private GameObject player;
+    [SerializeField] private Transform dropPoint;
 
     private int SelectedSlot=-1;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
     private void Update()
     {
@@ -67,7 +75,7 @@ public class InventaryManager : MonoBehaviour
 
             if (itemSlot != null)
             {
-                itemSlot.DropItem();
+                itemSlot.DropItem(dropPoint);
                 Debug.Log("se tira objeto");
             }
         }

@@ -56,8 +56,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler,I
                 break;
         }
     }
-    public void DropItem()
+    public void DropItem(Transform PointSpawn)
     {
+       SpawnObject(PointSpawn);
         Destroy (gameObject);
     }
     public void EffectItem(GameObject player)
@@ -65,9 +66,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler,I
         switch (item.type)
         {
             case ItemType.Health:
-                Debug.Log("cura");
+                item.HealPlayer(player);
                 break;
             case ItemType.Speed:
+                item.SpeedPlayer(player);
                 Debug.Log("Aumenta la velocidad");
                 break;
             case ItemType.Tesure:
@@ -76,5 +78,16 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IEndDragHandler,I
 
         }
     }
+
+    private void SpawnObject(Transform PointSpawn)
+    {
+        Debug.Log(PointSpawn);
+        for (int i = 0; i < count; i++)
+        {
+            Instantiate(item.Prefab, PointSpawn.position, Quaternion.identity);
+            Debug.Log("se coloco en el punto");
+        }
+    }
+ 
 
 }

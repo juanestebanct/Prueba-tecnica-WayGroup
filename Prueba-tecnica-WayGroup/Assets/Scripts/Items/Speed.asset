@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5952eac5087435640b8a8ec726059274, type: 3}
-  m_Name: Health
+  m_Name: Speed
   m_EditorClassIdentifier: 
-  Name: Health
-  type: 0
-  Prefab: {fileID: 7131984229926268763, guid: 7f5e6ba9718ebd547b1e76ae0fec64c2, type: 3}
-  Image: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Name: Position
+  type: 2
+  Prefab: {fileID: 2083666333142201803, guid: 868fa1746d4db7a4fbb48113b0aa1085, type: 3}
+  Image: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   Points: 0
-  Healt: 40
-  Speed: 0
+  Healt: 0
+  Speed: 2

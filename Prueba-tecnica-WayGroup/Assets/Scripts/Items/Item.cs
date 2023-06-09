@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEditor.Progress;
 
 [CreateAssetMenu(menuName ="Scriptable objecct/Item")]
 public class Item : ScriptableObject
 {
     public string Name;
     public ItemType type;
-    public GameObject _Item;
+    public GameObject Prefab;
     public Sprite Image;
 
     [Header("Tesure")]
     public float Points;
 
     [Header("Health")]
-    public float healt;
+    public float Healt;
 
-    [Header("Speed")]
+    [Header("speed")]
     public float Speed;
 
     public enum ItemType
@@ -26,21 +27,13 @@ public class Item : ScriptableObject
         Tesure,
         Speed
     }
-    /// <summary>
-    /// Dependiendo del tipo se activa, añadir la vida al player, speed o calcula el tesoro 
-    /// </summary>
-    /// <param name="player"></param>
-    public void AplicateEfect(GameObject player)
+    public void HealPlayer(GameObject player)
     {
-        switch (type)
-        {
-            case ItemType.Health:
-                break;
-            case ItemType.Speed:
-                break;
-            case ItemType.Tesure:
-                break;
-
-        }
+        player.GetComponent<PlayerStats>().ResiveHealt(Healt);
+        Debug.Log("se aplico curacion de " +Healt);
+    }
+    public void SpeedPlayer(GameObject player)
+    {
+        player.GetComponent<PlayerStats>().ChangeSpeed(Speed);
     }
 }

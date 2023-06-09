@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Riggibody stactic")]
 
-    [SerializeField] private float Speed;
+    [SerializeField] private float speed;
     [SerializeField] private float JumpForce;
 
     [SerializeField] private float DawnInGround;
@@ -64,11 +64,11 @@ public class PlayerController : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector3 movement = (transform.forward * moveVertical + transform.right * moveHorizontal).normalized;
-        rb.AddForce(movement*Speed*10f);
+        rb.AddForce(movement*speed*10f);
 
         Vector3 clampedVelocity = rb.velocity;
-        clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -Speed, Speed);
-        clampedVelocity.z = Mathf.Clamp(clampedVelocity.z, -Speed, Speed);
+        clampedVelocity.x = Mathf.Clamp(clampedVelocity.x, -speed, speed);
+        clampedVelocity.z = Mathf.Clamp(clampedVelocity.z, -speed, speed);
         ///limite de velocidad 
         rb.velocity = clampedVelocity;
 
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit,maxDistance))
         {
-            if (hit.transform.tag == "Grabbed" && Input.GetKeyDown(KeyCode.Q))
+            if (hit.transform.tag == "Grabbed" && Input.GetKeyDown(KeyCode.Mouse0))
             {
 
                 hands.gameObject.SetActive(true);
@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ThrowObject()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             DropGrabbed();
         }
@@ -180,5 +180,11 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+
+    public void ChangeSpeed(float speed)
+    {
+        Debug.Log("cambio la velocidad");
+        this.speed = speed;
+    }
   
 }

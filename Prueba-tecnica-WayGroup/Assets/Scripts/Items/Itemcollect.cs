@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Itemcollect : MonoBehaviour
 {
-    public InventaryManager inventaryManager;
     public Item item;
     private void OnCollisionEnter(Collision collision)
     {
@@ -12,7 +11,9 @@ public class Itemcollect : MonoBehaviour
         {
             // Aquí puedes agregar la lógica que deseas ejecutar cuando el objeto colisiona con el jugador
             Debug.Log("¡El objeto colisionó con el jugador!");
-            bool Spawn = inventaryManager.addItem(item);
+            bool Spawn = InventaryManager.Instance.addItem(item);
+
+            Destroy(gameObject);
         }
     }
 }
