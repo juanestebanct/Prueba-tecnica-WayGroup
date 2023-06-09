@@ -7,7 +7,7 @@ Documentacion del proyecto.
 ## Movimiento simple del jugador  
 ____
 
-Para el movimiento del jugador,se tiene la funcion *Move()* donde se esta calculando mediante las fisicas del rigibody, se está moviendo con respecto el forward de la cámara para que se mueva siempre en la dirección de la cámara.<br>
+Para el movimiento del jugador,se tiene la funcion *Move()* donde se esta calculando mediante las fisicas del Rigidbody, se está moviendo con respecto el forward de la cámara para que se mueva siempre en la dirección de la cámara.<br>
 ![image](https://github.com/juanestebanct/Prueba-tecnica-WayGroup/assets/78618669/044e3c24-1178-406f-be43-160dbe833dff) <br>
 codigo que rota al jugador con el forward de la camara.este codigo esta en *CameraController*, en especifico en la funcion Rotation()
 ![image](https://github.com/juanestebanct/Prueba-tecnica-WayGroup/assets/78618669/827d5215-43ba-46c9-9510-c29d485cdc30)
