@@ -8,8 +8,6 @@ public class Platform : MonoBehaviour
     [Header("platform configuration")]
 
     [SerializeField] private Transform[] Point;
-    [SerializeField] private Transform startPoint;
-    [SerializeField] private Transform endPoint;
     [SerializeField] private int indexPoint;
     [SerializeField] private float speed = 2f;
     [SerializeField] private float waitTime = 1f;
