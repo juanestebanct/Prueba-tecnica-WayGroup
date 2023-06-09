@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float points;
     [SerializeField] private float timeInMortality;
     [SerializeField] private PlayerController MovenPlayer;
+    [SerializeField] private Image liveBar;
 
     private bool CanResiveDamage;
 
@@ -36,12 +38,14 @@ public class PlayerStats : MonoBehaviour
             live -= Damage;
 
             if(live <=0 ) Dead();
+            UpdateLive();
         }
     }
     public void ResiveHealt(float healt)
     {
         live+= healt;
         if (live > maxLive) live = maxLive;
+        UpdateLive();
     }
     
     public void ChangeSpeed(float speed)
@@ -72,6 +76,10 @@ public class PlayerStats : MonoBehaviour
         yield return new WaitForSeconds(3);
         speed = MaxSpeed;
         MovenPlayer.ChangeSpeed(speed);
+    }
+    private void UpdateLive()
+    {
+        liveBar.fillAmount = live/maxLive;
     }
     #endregion
 }
