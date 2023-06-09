@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEditor.Progress;
 
 [CreateAssetMenu(menuName ="Scriptable objecct/Item")]
 public class Item : ScriptableObject

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -114,6 +113,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private bool TouchGround()
     {
+
         return Physics.Raycast(pointReference.position,Vector3.down, GroundDistance, layerGround);
     }
     /// <summary>

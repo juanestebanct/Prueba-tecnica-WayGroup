@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class DamageZone : MonoBehaviour
 {
-    [Header("Force")]
+    [Header("Trap stats")]
 
     [SerializeField] private float pushForce;
+    [SerializeField] private int Damage;
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -14,7 +15,8 @@ public class DamageZone : MonoBehaviour
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                Vector3 pushDirection = transform.forward + Vector3.up;
+                collision.gameObject.GetComponent<PlayerStats>().ResiveDamageTrap(Damage);
+                Vector3 pushDirection = Vector3.up;
                 rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
             }
         }

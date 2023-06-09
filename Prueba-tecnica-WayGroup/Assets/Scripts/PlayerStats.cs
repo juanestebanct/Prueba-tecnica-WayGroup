@@ -41,13 +41,19 @@ public class PlayerStats : MonoBehaviour
             UpdateLive();
         }
     }
+
+    public void ResiveDamageTrap(int Damage)
+    {
+        live -= Damage;
+        if (live <= 0) Dead();
+        UpdateLive();
+    }
     public void ResiveHealt(float healt)
     {
         live+= healt;
         if (live > maxLive) live = maxLive;
         UpdateLive();
     }
-    
     public void ChangeSpeed(float speed)
     {
         Debug.Log("aplico la velocidad ");
@@ -60,6 +66,9 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("se murio");
     }
+    #endregion
+
+    #region private Corrutine
     /// <summary>
     /// Corrutina que se encarga de la inmortalidad temporal del jugador 
     /// </summary>
