@@ -19,6 +19,9 @@ public class OpenDoor : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// desactiva la puerta y lo destruye  
+    /// </summary>
     private void OpenDoorAndDestroy()
     {
         Door.gameObject.SetActive(false);
